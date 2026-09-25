@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /send.php
+Disallow: /assets/
+Disallow: /private/
+Disallow: /tmp/
+
+Sitemap: https://REPLACE_DOMAIN.ru/sitemap.xml
