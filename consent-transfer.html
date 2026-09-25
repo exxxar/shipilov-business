@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Согласие на передачу персональных данных третьим лицам — Егор Шипилов</title>
+  <meta name="description" content="Согласие на передачу персональных данных третьим лицам. ИП Шипилов Е.О.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070707;
+      --bg-2: #101010;
+      --fg: #F4F4F0;
+      --muted: #9C9C98;
+      --neon: #C7FF00;
+      --neon-2: #9B5CFF;
+      --line: rgba(244, 244, 240, 0.08);
+      --line-2: rgba(244, 244, 240, 0.15);
+      --radius: 14px;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    }
+    .policy {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 5vw 100px;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--neon-2);
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid var(--neon-2);
+      border-radius: 999px;
+      transition: all 0.3s;
+      margin-bottom: 50px;
+      box-shadow: 0 0 15px rgba(155, 92, 255, 0.15);
+    }
+    .back:hover {
+      background: var(--neon-2);
+      color: #070707;
+      box-shadow: 0 0 25px rgba(155, 92, 255, 0.4);
+    }
+    .policy h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--fg);
+      margin-bottom: 20px;
+    }
+    .policy h1 em {
+      font-style: normal;
+      color: var(--neon-2);
+      text-shadow: 0 0 20px rgba(155, 92, 255, 0.4);
+    }
+    .policy .date {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+    .policy h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(20px, 2.5vw, 26px);
+      line-height: 1.2;
+      color: var(--neon-2);
+      margin-top: 50px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .policy h2::before {
+      content: attr(data-num);
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      font-weight: 500;
+      padding: 6px 12px;
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .policy p {
+      color: #C8C8C4;
+      margin-bottom: 14px;
+      font-size: 15.5px;
+    }
+    .policy strong { color: var(--fg); font-weight: 500; }
+    .policy ul {
+      list-style: none;
+      padding: 0;
+      margin: 14px 0 20px;
+    }
+    .policy li {
+      position: relative;
+      padding: 8px 0 8px 32px;
+      color: #C8C8C4;
+      font-size: 15.5px;
+      line-height: 1.6;
+      border-bottom: 1px solid var(--line);
+    }
+    .policy li:last-child { border-bottom: none; }
+    .policy li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      width: 16px;
+      height: 2px;
+      background: var(--neon-2);
+      box-shadow: 0 0 8px var(--neon-2);
+    }
+    .policy a {
+      color: var(--neon-2);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--neon-2);
+      transition: all 0.3s;
+    }
+    .policy a:hover {
+      color: var(--fg);
+      border-color: var(--fg);
+    }
+    .recipients-card {
+      background: var(--bg-2);
+      border: 1px solid var(--line-2);
+      border-left: 3px solid var(--neon-2);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin: 24px 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(155, 92, 255, 0.03);
+    }
+    .recipients-card h3 {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--neon-2);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .recipients-card h3::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--neon-2);
+      box-shadow: 0 0 6px var(--neon-2);
+    }
+    .recipients-card ul { margin: 0; }
+    .recipients-card li {
+      padding: 10px 0 10px 32px;
+      border-bottom: 1px solid var(--line);
+    }
+    .recipients-card li:last-child { border-bottom: none; }
+    .footer-note {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .footer-note a { color: var(--neon-2); border: none; }
+    @media (max-width: 768px) {
+      .policy { padding: 40px 20px 80px; }
+      .recipients-card { padding: 20px; }
+      .policy h2::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="policy">
+    <a class="back" href="/">← На главную</a>
+
+    <h1>Согласие на передачу<br><em>персональных данных третьим лицам</em></h1>
+    <div class="date">Дата актуализации: 25 сентября 2026 года</div>
+
+    <p>Настоящее Согласие разработано в соответствии со статьёй 9 Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных» и определяет условия передачи персональных данных третьим лицам (обработчикам) ИП Шипиловым Егором Олеговичем (ОГРНИП 324237500062624, ИНН 614346287822).</p>
+
+    <h2 data-num="01">Субъект персональных данных</h2>
+    <p>Любое физическое лицо, направившее обращение через форму обратной связи на сайте <a href="https://shipilov.ru">shipilov.ru</a> и выразившее согласие на передачу своих персональных данных третьим лицам путём проставления соответствующего флажка в форме.</p>
+
+    <h2 data-num="02">Перечень передаваемых данных</h2>
+    <p>Передаче подлежат следующие персональные данные (в объёме, необходимом для исполнения запроса пользователя):</p>
+    <ul>
+      <li>имя;</li>
+      <li>номер телефона или идентификатор в Telegram;</li>
+      <li>адрес электронной почты;</li>
+      <li>текст обращения и тема запроса;</li>
+      <li>прикреплённые файлы (при наличии).</li>
+    </ul>
+
+    <h2 data-num="03">Цель передачи</h2>
+    <p>Передача данных осуществляется исключительно в целях:</p>
+    <ul>
+      <li>обработки входящего обращения и подготовки ответа;</li>
+      <li>связи с пользователем по его запросу;</li>
+      <li>обсуждения проекта и подготовки коммерческого предложения;</li>
+      <li>обеспечения технической работы сервисов, используемых Оператором.</li>
+    </ul>
+
+    <h2 data-num="04">Перечень третьих лиц (обработчиков)</h2>
+    <div class="recipients-card">
+      <h3>Обработчики персональных данных</h3>
+      <ul>
+        <li><strong>Хостинг-провайдер</strong> — для размещения файлов сайта и базы данных на серверах, расположенных на территории Российской Федерации.</li>
+        <li><strong>Почтовый сервис (SMTP)</strong> — для отправки ответов на обращения пользователей и технических уведомлений.</li>
+        <li><strong>CRM-система</strong> — при подключении, для учёта обращений и управления взаимодействием с клиентами.</li>
+        <li><strong>Сервисы аналитики</strong> — при подключении, для улучшения работы сайта (сведения будут дополнены).</li>
+      </ul>
+    </div>
+    <p>Все обработчики действуют на основании договоров с Оператором, обязывающих их соблюдать конфиденциальность и обеспечивать защиту персональных данных в соответствии с требованиями законодательства Российской Федерации.</p>
+
+    <h2 data-num="05">Способы передачи</h2>
+    <p>Передача данных осуществляется с использованием средств автоматизации, в том числе через защищённые каналы связи (HTTPS, API), а также путём предоставления доступа к базам данных обработчикам в объёме, необходимом для исполнения ими своих обязанностей.</p>
+
+    <h2 data-num="06">Срок действия согласия</h2>
+    <p>Настоящее согласие действует <strong>до момента его отзыва</strong> пользователем либо до достижения целей обработки, после чего персональные данные подлежат удалению или уничтожению, если иное не установлено законодательством.</p>
+
+    <h2 data-num="07">Порядок отзыва согласия</h2>
+    <p>Пользователь вправе отозвать настоящее согласие в любой момент, направив соответствующее письменное заявление Оператору по адресу: <a href="mailto:hello@shipilov.ru">hello@shipilov.ru</a> или через Telegram: <a href="https://t.me/EgorShipilov" target="_blank" rel="noopener">@EgorShipilov</a>.</p>
+    <p>Отзыв согласия не влияет на законность обработки, осуществлённой до его получения. Оператор прекращает передачу данных третьим лицам в течение 30 дней с момента получения отзыва, если иное не предусмотрено федеральным законом.</p>
+
+    <h2 data-num="08">Права субъекта</h2>
+    <p>Субъект персональных данных вправе:</p>
+    <ul>
+      <li>получать информацию о фактах передачи данных третьим лицам;</li>
+      <li>требовать прекращения передачи и удаления данных;</li>
+      <li>обжаловать действия Оператора в Роскомнадзор или суд.</li>
+    </ul>
+
+    <h2 data-num="09">Контакты Оператора</h2>
+    <p><strong>ИП Шипилов Егор Олегович</strong><br>
+    ИНН 614346287822 · ОГРНИП 324237500062624<br>
+    Адрес: Краснодарский край, г. Краснодар<br>
+    E-mail: <a href="mailto:hello@shipilov.ru">hello@shipilov.ru</a><br>
+    Telegram: <a href="https://t.me/EgorShipilov" target="_blank" rel="noopener">@EgorShipilov</a></p>
+
+    <div class="footer-note">
+      © <span id="year">2026</span> ИП Шипилов Е. О. · <a href="/policy">Политика обработки персональных данных</a>
+    </div>
+  </main>
+
+  <script>
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
