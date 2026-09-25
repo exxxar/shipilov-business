@@ -32,7 +32,7 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
   revealTargets.forEach((el) => revealObserver.observe(el));
 
-  // 4. Stats counters (Исправленная и надёжная версия)
+  // 4. Stats counters
   console.log('🚀 Скрипт загружен. Ищем счётчики...');
   const statElements = document.querySelectorAll('.stat b[data-count]');
   console.log('Найдено элементов-счётчиков:', statElements.length);
@@ -47,25 +47,20 @@
         }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
     statElements.forEach((el) => counterObserver.observe(el));
   }
 
   function animateCount(el) {
     const target = parseInt(el.dataset.count, 10);
     if (isNaN(target)) return;
-
     const duration = 2000;
     const start = performance.now();
-
     function step(now) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       const currentValue = Math.round(target * eased);
-
       el.textContent = currentValue.toLocaleString('ru-RU');
-
       if (progress < 1) {
         requestAnimationFrame(step);
       } else {
@@ -115,7 +110,7 @@
     });
   });
 
-  // 8. Fullscreen viewer (ОБЪЯВЛЕН РОВНО ОДИН РАЗ)
+  // 8. Fullscreen viewer
   const fsViewer = document.querySelector('.fs-viewer');
   const fsImg = fsViewer?.querySelector('.fs-stage img');
   const fsCaption = fsViewer?.querySelector('.fs-caption');
@@ -145,10 +140,8 @@
   }
 
   if (fsViewer) {
-    // Гарантируем скрытие при загрузке
     fsViewer.setAttribute('hidden', '');
     fsViewer.style.display = 'none';
-
     fsClose?.addEventListener('click', closeFs);
     fsPrev?.addEventListener('click', () => { fsIndex = (fsIndex - 1 + fsItems.length) % fsItems.length; showFs(); });
     fsNext?.addEventListener('click', () => { fsIndex = (fsIndex + 1) % fsItems.length; showFs(); });
@@ -161,22 +154,41 @@
     });
   }
 
-  // Привязка к awards & gallery
-  const awardItems = Array.from(document.querySelectorAll('.award-grid figure')).map((fig) => ({
-    image: fig.querySelector('img')?.src || '',
-    title: fig.querySelector('figcaption')?.textContent || ''
-  }));
-  document.querySelectorAll('.award-grid figure').forEach((fig, i) => {
-    fig.addEventListener('click', () => { if (awardItems[i]?.image) openViewer(awardItems, i); });
-  });
+  // ==========================================
+  // Gallery (Photo Archive) с перемешиванием
+  // ==========================================
+  const galleryContainer = document.querySelector('.gallery-grid');
 
-  const galleryItems = Array.from(document.querySelectorAll('.gallery-grid .photo')).map((ph) => ({
-    image: ph.querySelector('img')?.src || '',
-    title: ph.textContent.trim()
-  }));
-  document.querySelectorAll('.gallery-grid .photo').forEach((ph, i) => {
-    ph.addEventListener('click', () => { if (galleryItems[i]?.image) openViewer(galleryItems, i); });
-  });
+  if (galleryContainer) {
+    // 1. Перемешиваем элементы (Алгоритм Фишера-Йетса)
+    const items = Array.from(galleryContainer.children);
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      // Меняем элементы местами
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+
+    // Возвращаем перемешанные элементы обратно в контейнер
+    items.forEach(item => galleryContainer.appendChild(item));
+
+    // 2. Создаём массив данных для полноэкранного просмотра
+    // (уже в новом, перемешанном порядке)
+    const currentGalleryItems = Array.from(galleryContainer.children).map((item) => ({
+      image: item.querySelector('img')?.src || '',
+      title: item.querySelector('img')?.alt || 'Фото из архива'
+    }));
+
+    // 3. Назначаем обработчики клика
+    galleryContainer.querySelectorAll('.photo-item').forEach((item) => {
+      item.addEventListener('click', () => {
+        // Находим текущий индекс элемента в уже перемешанном DOM
+        const currentIndex = Array.from(galleryContainer.children).indexOf(item);
+        if (currentGalleryItems[currentIndex]?.image) {
+          openViewer(currentGalleryItems, currentIndex);
+        }
+      });
+    });
+  }
 
   // 9. Cookie Banner Logic
   const cookieBanner = document.getElementById('cookieBanner');
@@ -213,8 +225,8 @@
       const name = form.name.value.trim();
       const contact = form.contact.value.trim();
       const message = form.message.value.trim();
-      const consent1 = form.consent_process.checked;
-      const consent2 = form.consent_transfer.checked;
+      const consent1 = form.consent_process?.checked;
+      const consent2 = form.consent_transfer?.checked;
 
       if (!name || name.length < 2) return showStatus('Укажите имя.', 'error');
       if (!contact || contact.length < 3) return showStatus('Укажите телефон или Telegram.', 'error');
@@ -238,7 +250,6 @@
           showStatus(json.message || 'Не удалось отправить заявку.', 'error');
         }
       } catch (err) {
-        // При локальном открытии (file://) fetch всегда будет падать. Это нормально.
         console.warn('Fetch error (возможно, сайт открыт как file://):', err);
         showStatus('Для отправки формы сайт должен быть запущен на локальном сервере (http://).', 'error');
       } finally {
@@ -270,5 +281,155 @@
       if (window.scrollY > 40) header.classList.add('scrolled');
       else header.classList.remove('scrolled');
     }, { passive: true });
+  }
+
+  // ==========================================
+  // 13. Awards Carousel (Multi-Slide)
+  // ==========================================
+  const carousel = document.getElementById('awardsCarousel');
+  const track = carousel?.querySelector('.carousel-track');
+  const items = carousel?.querySelectorAll('.carousel-item');
+  const prevBtn = document.querySelector('.carousel-prev');
+  const nextBtn = document.querySelector('.carousel-next');
+  const dotsContainer = document.getElementById('carouselDots');
+  const currentSlideEl = document.getElementById('currentSlide');
+  const totalSlidesEl = document.getElementById('totalSlides');
+
+  // ЕДИНОЕ объявление массива для грамот (только карусель)
+  const awardItems = Array.from(document.querySelectorAll('.carousel-item')).map((item) => ({
+    image: item.querySelector('img')?.src || '',
+    title: item.querySelector('.carousel-caption')?.textContent?.trim() || ''
+  }));
+
+  if (carousel && track && items && items.length > 0) {
+    let currentIndex = 0;
+    const totalSlides = items.length;
+    let autoPlayInterval;
+    let isTransitioning = false;
+
+    function getVisibleCount() {
+      if (window.innerWidth <= 768) return 1;
+      if (window.innerWidth <= 1024) return 2;
+      return 3;
+    }
+
+    let visibleCount = getVisibleCount();
+    let maxIndex = Math.max(0, totalSlides - visibleCount);
+
+    if (totalSlidesEl) totalSlidesEl.textContent = totalSlides;
+
+    function buildDots() {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const pageCount = maxIndex + 1;
+      for (let i = 0; i < pageCount; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
+        dot.setAttribute('aria-label', `Страница ${i + 1}`);
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateCarousel() {
+      visibleCount = getVisibleCount();
+      maxIndex = Math.max(0, totalSlides - visibleCount);
+      if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+      const gap = window.innerWidth <= 768 ? 0 : 20;
+      const slideWidth = (carousel.offsetWidth - gap * (visibleCount - 1)) / visibleCount;
+      const offset = currentIndex * (slideWidth + gap);
+
+      track.style.transform = `translateX(-${offset}px)`;
+
+      items.forEach((item, i) => {
+        const centerIndex = currentIndex + Math.floor(visibleCount / 2);
+        item.classList.toggle('active', i === centerIndex || (visibleCount === 1 && i === currentIndex));
+      });
+
+      if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+      }
+
+      if (currentSlideEl) currentSlideEl.textContent = currentIndex + 1;
+      if (prevBtn) prevBtn.disabled = currentIndex <= 0;
+      if (nextBtn) nextBtn.disabled = currentIndex >= maxIndex;
+    }
+
+    function goToSlide(index) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      currentIndex = Math.max(0, Math.min(index, maxIndex));
+      updateCarousel();
+      resetAutoPlay();
+      setTimeout(() => { isTransitioning = false; }, 600);
+    }
+
+    function nextSlide() {
+      if (currentIndex < maxIndex) goToSlide(currentIndex + 1);
+      else goToSlide(0);
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) goToSlide(currentIndex - 1);
+      else goToSlide(maxIndex);
+    }
+
+    prevBtn?.addEventListener('click', prevSlide);
+    nextBtn?.addEventListener('click', nextSlide);
+
+    document.addEventListener('keydown', (e) => {
+      const rect = carousel.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!isVisible) return;
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'ArrowRight') nextSlide();
+    });
+
+    let touchStartX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    carousel.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextSlide();
+        else prevSlide();
+      }
+    }, { passive: true });
+
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(nextSlide, 4000);
+    }
+    function resetAutoPlay() {
+      clearInterval(autoPlayInterval);
+      startAutoPlay();
+    }
+    carousel.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+    carousel.addEventListener('mouseleave', startAutoPlay);
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        buildDots();
+        updateCarousel();
+      }, 200);
+    });
+
+    // Клик по слайду — fullscreen viewer
+    items.forEach((item) => {
+      item.addEventListener('click', () => {
+        const index = parseInt(item.dataset.index, 10);
+        if (awardItems[index]?.image) {
+          openViewer(awardItems, index);
+        }
+      });
+    });
+
+    buildDots();
+    updateCarousel();
+    startAutoPlay();
   }
 })();

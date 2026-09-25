@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Эффект неонового свечения -->
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Тёмный фон с лёгким скруглением (как у иконок приложений) -->
+  <rect width="512" height="512" rx="120" fill="#0A0A0A" />
+  
+  <!-- Буква E (Space Grotesk style, жирная и геометричная) -->
+  <path d="M110 130 L110 382 L310 382 L310 326 L166 326 L166 274 L294 274 L294 218 L166 218 L166 174 L310 174 L310 130 Z" fill="#F4F4F0" />
+  
+  <!-- Неоновая точка (акцент) -->
+  <circle cx="370" cy="350" r="32" fill="#C7FF00" filter="url(#neon-glow)" />
+</svg>
